@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>MONGODB</title>
+        <!--BOOTSTRAP-->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+
+        <style type="text/css">
+            *{
+                background: #666;
+                margin: 10px;
+            }
+        </style>
+    </head>
+    <body>
+        <main>
+            <!---->
+            <article>
+                <h1>Install and Set Up Mongoose</h1>
+                <p>you will import the required projects, and connect to your Atlas database.</p>
+                <p>Add <strong>mongodb</strong> and <strong>mongoose</strong> to the project’s <strong>package.json</strong>. Then, require mongoose as <strong>mongoose</strong> in <strong>myApp.js</strong>. Store your MongoDB Atlas database URI in a private <strong>.env</strong> file as <strong>MONGO_URI</strong>. Surround the the URI with single or double quotes, and make sure no space exists between both the variable and the <strong>=</strong>.</p>
+                <p class="text-light">mongoose.connect(Your URI, { useNewUrlParser: true, useUnifiedTopology: true });</p>
+                <a href="https://forum.freecodecamp.org/t/freecodecamp-challenge-guide-install-and-set-up-mongoose/301540">Example here</a>
+            </article><hr>
+ 
+
+            <!---->
+            <article>
+                <h1>Create a Model</h1>
+                <h3>CRUD Part I - CREATE</h3>
+                <p>First of all we need a Schema. Each schema maps to a MongoDB collection. It defines the shape of the documents within that collection. Schemas are building block for Models.<br>A model allows you to create instances of your objects, called documents.</p>
+                <p>A real servers the interactions with the database happen in handler functions. These functions are executed when some event happens <br>
+                    We’ll follow the same approach in these exercises. The <strong>done()</strong> function is a callback that tells us that we can proceed after completing an asynchronous operation such as inserting, searching, updating, or deleting.<br>
+                    It's following the Node convention, and should be called as <strong>done(null, data)</strong> on success, or <strong>done(err)</strong> on error.<br>
+                    <strong>Warning</strong> - When interacting with remote services, errors may occur!
+                </p>
+                <p class="text-light">
+                    const someFunc = function(done) {<br>
+                        //... do something (risky) ...<br>
+                        if (error) return done(error);<br>
+                        done(null, result);<br>
+                      };
+                </p><hr>
+                <p>
+                    Create a person schema called <strong>personSchema</strong> having this prototype:
+                    - Person Prototype -<br>
+                    --------------------<br>
+                    name : string [required]<br>
+                    age :  number<br>
+                    favoriteFoods : array of strings (*)<br><br>
+                    Use the Mongoose basic schema types. <a href="https://mongoosejs.com/docs/guide.html#models">See the Mongoose docs</a>
+                </p>
+            </article><hr>
+
+
+            <!---->
+            <article>
+                <h1>Create and Save a Record of a Model</h1>
+                <p>In this challenge you will have to create and save a record of a model.</p>
+                <p>Within the <strong>createAndSavePerson</strong> function, create a document instance using the <strong>Person</strong> model constructor you built before. Pass to the constructor an object having the fields <strong>name, age, and favoriteFoods</strong>. Their types must conform to the ones in the <strong>personSchema</strong>. Then, call the method <strong>document.save()</strong> on the returned document instance. Pass to it a callback using the Node convention.<br>
+                    All the following CRUD methods take a callback function like this as the last argument.
+                </p>
+                <p class="text-light">
+                    /* Example */<br>
+
+                    // ...<br>
+                    person.save(function(err, data) {<br>
+                    //   ...do your stuff here...<br>
+                    });
+                </p>
+                <a href="https://forum.freecodecamp.org/t/freecodecamp-challenge-guide-create-and-save-a-record-of-a-model/301536">Here the code</a>
+            </article><hr>
+
+
+            <!---->
+            <article>
+                <h1>Create Many Records with model.create()</h1>
+                <p>Sometimes you need to create many instances of your models, e.g. when seeding a database with initial data. <strong>Model.create()</strong> takes an array of objects like <strong>[{name: 'John', ...}, {...}, ...]</strong> as the first argument, and saves them all in the db.<hr>Example<br></p>
+                <p class="text-light">Modify the <strong>createManyPeople</strong> function to create many people using <strong>Model.create()</strong> with the argument <strong>arrayOfPeople</strong>.
+                <br><strong>Note:</strong> You can reuse the model you instantiated in the previous exercise.
+                </p>
+                <a href="https://forum.freecodecamp.org/t/freecodecamp-challenge-guide-create-many-records-with-model-create/301537">Press here</a>
+            </article><hr>
+
+
+            <!---->
+            <article>
+                <h1>Use model.find() to Search Your Database</h1>
+                <p>In its simplest usage, <strong>Model.find()</strong> accepts a query document (a JSON object) as the first argument, then a callback. It returns an array of matches. It supports an extremely wide range of search options. </p>
+                <p>Example<br>
+                Modify the <strong>findPeopleByName</strong> function to find all the people having a given name, using <strong>Model.find() -> [Person]</strong>
+                Use the function argument personName as the search key.
+                </p>
+                <a href="https://forum.freecodecamp.org/t/freecodecamp-challenge-guide-use-model-find-to-search-your-database/301543">Here example</a>
+            </article><hr>
+
+
+            <!---->
+            <article>
+                <h1>Use model.findOne() to Return a Single Matching Document from Your Database</h1>
+                <p><strong>Model.findOne()</strong> behaves like <strong>Model.find()</strong>, but it returns only one document (not an array), even if there are multiple items. It is especially useful when searching by properties that you have declared as unique.</p>
+                <p>Example<br>
+                    Modify the <strong>findOneByFood</strong> function to find just one person which has a certain food in the person's favorites, using <strong>Model.findOne() -> Person</strong>. Use the function argument <strong>food</strong> as search key.
+                </p>
+                <a href="https://forum.freecodecamp.org/t/freecodecamp-challenge-guide-use-model-findone-to-return-a-single-matching-document-from-your-database/301545">Here example</a>
+            </article><hr>
+
+
+            <!---->
+            <article>
+                <h1>Use model.findById() to Search Your Database By _id</h1>
+                <p>When saving a document, MongoDB automatically adds the field <strong>_id</strong>, and set it to a unique alphanumeric key. Searching by <strong>_id</strong> is an extremely frequent operation, so Mongoose provides a dedicated method for it.</p>
+                <p>Example<br>
+                    Modify the <strong>findPersonById</strong> to find the only person having a given <strong>_id</strong>, using <strong>Model.findById() -> Person</strong>. Use the function argument <strong>personId</strong> as the search key.
+                </p>
+                <a href="https://forum.freecodecamp.org/t/freecodecamp-challenge-guide-use-model-findbyid-to-search-your-database-by-id/301544">
+                    Example here</a>
+            </article><hr>
+
+
+            <!---->
+            <article>
+                <h1>Perform Classic Updates by Running Find, Edit, then Save</h1>
+                <p>This was what you needed to do if you wanted to edit a document, and be able to use it somehow. Mongoose has a dedicated updating method: <strong>Model.update()</strong>. It is bound to the low-level mongo driver.</p><hr>
+                <p>Modify the <strong>findEditThenSave</strong> function to find a person by <strong>_id</strong> (use any of the above methods) with the parameter <strong>personId</strong> as search key. Add <strong>"hamburger"</strong> to the list of the person's <strong>favoriteFoods</strong> (you can use <strong>Array.push()</strong>). Then - inside the find callback - <strong>save()</strong> the updated Person.</p>
+                <a href="https://forum.freecodecamp.org/t/freecodecamp-challenge-guide-perform-classic-updates-by-running-find-edit-then-save/301541">Here Example</a>
+            </article><hr>
+
+
+            <!---->
+            <article>
+                <h1>Perform New Updates on a Document Using model.findOneAndUpdate()</h1>
+                <p><strong>findByIdAndUpdate()</strong> can be used when searching by id.</p><hr>
+                <p>Modify the <strong>findAndUpdate</strong> function to find a person by <strong>Name</strong> and set the person's age to <strong>20</strong>. Use the function parameter <strong>personName</strong> as the search key.<br>
+                    <strong>Note:</strong> You should return the updated document. To do that, you need to pass the options document <strong>{ new: true }</strong> as the 3rd argument to <strong>findOneAndUpdate()</strong>.</p>
+                <a href="https://forum.freecodecamp.org/t/freecodecamp-challenge-guide-perform-new-updates-on-a-document-using-model-findoneandupdate/301542">Here example</a>
+                <a href="https://github.com/Automattic/mongoose/issues/964">Document github</a>
+                <a href="https://mongoosejs.com/docs/api.html#model_Model.findOneAndUpdate">Document official</a>
+            </article><hr>
+
+
+            <!---->
+            <article>
+                <h1>Delete One Document Using model.findByIdAndRemove</h1>
+                <p><strong>findByIdAndRemove</strong> and <strong>findOneAndRemove</strong> are like the previous update methods. They pass the removed document to the db. As usual, use the function argument <strong>personId</strong> as the search key.</p>
+                <p>Modify the removeById function to delete one person by the person's _id. You should use one of the methods findByIdAndRemove() or findOneAndRemove().</p>
+                <a href="https://forum.freecodecamp.org/t/freecodecamp-challenge-guide-delete-one-document-using-model-findbyidandremove/301539">Here Example</a>
+            </article><hr>
+
+
+            <!---->
+            <article>
+                <h1>Delete Many Documents with model.remove()</h1>
+                <p><strong>Model.remove()</strong> is useful to delete all the documents matching given criteria.</p>
+                <p>Modify the removeManyPeople function to delete all the people whose name is within the variable nameToRemove, using Model.remove(). Pass it to a query document with the name field set, and a callback.</p>
+                <a href="https://forum.freecodecamp.org/t/freecodecamp-challenge-guide-delete-many-documents-with-model-remove/301538">Here Example</a>
+            </article><hr>
+
+
+            <!---->
+            <article>
+                <h1>Chain Search Query Helpers to Narrow Search Results</h1>
+                <p>If you don’t pass the callback as the last argument to <strong>Model.find()</strong>, the query is not executed. You can store the query in a variable for later use.<br>
+                    This kind of object enables you to build up a query using chaining syntax. The actual db search is executed when you finally chain the method <strong>.exec()</strong>. </p>
+                <p>Modify the <strong>queryChain</strong> function to find people who like the food specified by the variable named <strong>foodToSearch</strong>. Sort them by <strong>name</strong>, limit the results to two documents, and hide their age. Chain <strong>.find()</strong>, <strong>.sort()</strong>, <strong>.limit()</strong>, <strong>.select()</strong>, and then <strong>.exec()</strong>. Pass the <strong>done(err, data)</strong> callback to <strong>exec()</strong>.</p>
+                <a href="https://forum.freecodecamp.org/t/freecodecamp-challenge-guide-chain-search-query-helpers-to-narrow-search-results/301533">Here example</a>
+                <a href="https://mongoosejs.com/docs/api.html#query_Query-select">Document</a>
+            </article>
+        </main>
+    </body>
+</html>
